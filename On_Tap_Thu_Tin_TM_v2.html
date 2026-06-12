@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ôn Tập – Thư Tín Thương Mại</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#4F46E5;--primary-d:#3730A3;--primary-l:#EEF2FF;
+  --green:#059669;--green-l:#ECFDF5;--green-b:#D1FAE5;
+  --red:#DC2626;--red-l:#FEF2F2;--red-b:#FEE2E2;
+  --orange:#D97706;--orange-l:#FFFBEB;
+  --gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;
+  --gray-400:#9CA3AF;--gray-600:#4B5563;--gray-800:#1F2937;--gray-900:#111827;
+  --radius:10px;--shadow:0 2px 8px rgba(0,0,0,.08)
+}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#EEEEF8;color:var(--gray-800);min-height:100vh}
+
+/* NAV */
+.nav{background:#fff;border-bottom:1px solid var(--gray-200);padding:0 1.5rem;display:flex;align-items:center;gap:.75rem;position:sticky;top:0;z-index:100;height:54px;flex-wrap:nowrap}
+.nav-logo{font-weight:800;font-size:15px;color:var(--primary);white-space:nowrap}
+.nav-tabs{display:flex;gap:3px;overflow-x:auto}
+.nav-tab{padding:5px 13px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--gray-600);white-space:nowrap;transition:.15s}
+.nav-tab:hover{background:var(--gray-100)}
+.nav-tab.active{background:var(--primary-l);color:var(--primary)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.score-pill{font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;background:var(--primary-l);color:var(--primary)}
+
+/* SCREENS */
+.screen{display:none}.screen.active{display:block}
+.main{max-width:780px;margin:0 auto;padding:1.25rem 1rem}
+
+/* HOME */
+.hero{background:linear-gradient(135deg,#4F46E5,#7C3AED);color:#fff;border-radius:var(--radius);padding:2rem;margin-bottom:1.25rem}
+.hero h1{font-size:22px;font-weight:800;margin-bottom:6px}
+.hero p{font-size:13px;opacity:.85;line-height:1.6}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.25rem}
+.stat-card{background:#fff;border-radius:var(--radius);border:1px solid var(--gray-200);padding:1rem;text-align:center;box-shadow:var(--shadow)}
+.stat-val{font-size:28px;font-weight:800;color:var(--primary)}
+.stat-lab{font-size:12px;color:var(--gray-400);margin-top:2px}
+.exam-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.75rem;margin-bottom:1.25rem}
+.exam-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:1.25rem;cursor:pointer;transition:.2s;box-shadow:var(--shadow)}
+.exam-card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 6px 16px rgba(79,70,229,.13)}
+.exam-card .icon{font-size:26px;margin-bottom:10px}
+.exam-card h3{font-size:15px;font-weight:700;margin-bottom:4px}
+.exam-card p{font-size:12px;color:var(--gray-600);line-height:1.5}
+.exam-card .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.tag{font-size:11px;padding:2px 8px;border-radius:12px;background:var(--primary-l);color:var(--primary);font-weight:500}
+.tag.done{background:var(--green-l);color:var(--green)}
+.progress-mini{height:4px;background:var(--gray-200);border-radius:2px;margin-top:10px;overflow:hidden}
+.progress-mini-fill{height:100%;background:var(--primary);border-radius:2px;transition:.4s}
+
+/* EXAM */
+.exam-header{background:#fff;border-radius:var(--radius);border:1px solid var(--gray-200);padding:1.25rem 1.5rem;margin-bottom:1rem;box-shadow:var(--shadow)}
+.exam-title{font-size:17px;font-weight:800;color:var(--primary-d)}
+.exam-sub{font-size:12px;color:var(--gray-600);margin-top:2px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.badge{font-size:11px;font-weight:500;padding:2px 9px;border-radius:12px;border:1px solid}
+.badge-blue{background:#EFF6FF;color:#1D4ED8;border-color:#BFDBFE}
+.badge-green{background:var(--green-l);color:#15803D;border-color:#BBF7D0}
+.badge-orange{background:var(--orange-l);color:#C2410C;border-color:#FED7AA}
+.badge-purple{background:#F5F3FF;color:#6D28D9;border-color:#DDD6FE}
+
+.progress-bar{margin-bottom:1rem}
+.progress-info{display:flex;justify-content:space-between;font-size:12px;color:var(--gray-600);margin-bottom:5px}
+.bar{height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;background:var(--primary);border-radius:3px;transition:.4s}
+
+.sec-title{font-size:13px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;margin:1.5rem 0 .75rem;padding-bottom:5px;border-bottom:2px solid var(--primary-l)}
+
+/* QUESTION CARD */
+.q-card{background:#fff;border:2px solid var(--gray-200);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:.875rem;transition:.2s;box-shadow:var(--shadow)}
+.q-card.correct-card{border-color:var(--green);background:var(--green-l)}
+.q-card.wrong-card{border-color:var(--red);background:var(--red-l)}
+.q-num{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.q-num .chapter-tag{font-size:10px;padding:1px 6px;border-radius:8px;background:var(--primary-l);color:var(--primary);font-weight:600}
+.q-text{font-size:14.5px;font-weight:500;color:var(--gray-900);line-height:1.65;margin-bottom:12px}
+
+/* MCQ */
+.opts{display:grid;gap:7px}
+.opt{display:flex;align-items:flex-start;gap:9px;padding:9px 13px;border-radius:8px;border:1.5px solid var(--gray-200);cursor:pointer;font-size:13.5px;background:#fff;color:var(--gray-800);transition:.15s;text-align:left;width:100%;line-height:1.5}
+.opt:hover:not(:disabled){border-color:var(--primary);background:var(--primary-l);color:var(--primary-d)}
+.opt:disabled{cursor:default}
+.opt-lbl{font-weight:700;font-size:12px;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:var(--gray-100);color:var(--gray-600);flex-shrink:0;margin-top:1px}
+
+/* States only shown after submit */
+.opt.show-correct{border-color:var(--green)!important;background:var(--green-b)!important;color:#065F46!important}
+.opt.show-correct .opt-lbl{background:#A7F3D0;color:var(--green)}
+.opt.show-wrong{border-color:var(--red)!important;background:var(--red-b)!important;color:#991B1B!important}
+.opt.show-wrong .opt-lbl{background:#FECACA;color:var(--red)}
+.opt.show-mychosen{border-color:var(--primary);background:var(--primary-l);color:var(--primary-d)}
+.opt.show-mychosen .opt-lbl{background:#C7D2FE;color:var(--primary)}
+
+/* Result icon on card */
+.q-result-icon{float:right;font-size:18px;margin-top:-2px}
+
+/* TF */
+.tf-wrap{display:flex;gap:8px}
+.tf-btn{flex:1;padding:9px;border-radius:8px;border:1.5px solid var(--gray-200);background:#fff;font-size:13.5px;font-weight:600;cursor:pointer;transition:.15s}
+.tf-btn:hover:not(:disabled){border-color:var(--primary);background:var(--primary-l)}
+.tf-btn:disabled{cursor:default}
+.tf-btn.my-pick{border-color:var(--primary);background:var(--primary-l);color:var(--primary-d)}
+.tf-btn.show-correct{border-color:var(--green)!important;background:var(--green-b)!important;color:#065F46!important}
+.tf-btn.show-wrong{border-color:var(--red)!important;background:var(--red-b)!important;color:#991B1B!important}
+
+/* FILL */
+.fill-row{display:flex;gap:8px;margin-top:6px;align-items:center}
+.fill-input{flex:1;padding:8px 12px;border-radius:8px;border:1.5px solid var(--gray-200);font-size:13.5px;font-family:inherit;outline:none;transition:.15s}
+.fill-input:focus{border-color:var(--primary)}
+.fill-input.show-correct{border-color:var(--green);background:var(--green-l);color:#065F46}
+.fill-input.show-wrong{border-color:var(--red);background:var(--red-l);color:#991B1B}
+.check-btn{padding:8px 15px;border-radius:8px;border:none;background:var(--primary);color:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:.15s}
+.check-btn:hover{background:var(--primary-d)}
+.check-btn:disabled{opacity:.4;cursor:default}
+
+/* WORD BOX */
+.word-box{display:flex;flex-wrap:wrap;gap:6px;padding:11px 13px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;margin-bottom:12px}
+.word-chip{font-size:12.5px;font-weight:500;padding:3px 10px;border-radius:6px;background:#fff;border:1px solid var(--gray-200)}
+
+/* FEEDBACK (shown after submit) */
+.feedback{margin-top:9px;padding:9px 13px;border-radius:8px;font-size:12.5px;line-height:1.6;display:none}
+.feedback.show{display:block}
+.feedback.fb-correct{background:var(--green-b);color:#065F46;border-left:3px solid var(--green)}
+.feedback.fb-wrong{background:var(--red-b);color:#991B1B;border-left:3px solid var(--red)}
+.feedback strong{display:block;margin-bottom:2px}
+
+/* SUBMIT / RESULT */
+.submit-wrap{text-align:center;margin:1.5rem 0}
+.btn{padding:10px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:1.5px solid;transition:.15s}
+.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-primary:hover{background:var(--primary-d);border-color:var(--primary-d)}
+.btn-outline{background:#fff;color:var(--gray-700);border-color:var(--gray-300)}
+.btn-outline:hover{background:var(--gray-50)}
+.btn-green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn:disabled{opacity:.4;cursor:default}
+
+.result-card{background:#fff;border-radius:var(--radius);border:1px solid var(--gray-200);padding:2rem;text-align:center;margin-bottom:1.5rem;box-shadow:var(--shadow)}
+.result-score{font-size:52px;font-weight:800;color:var(--primary);line-height:1}
+.result-label{font-size:14px;color:var(--gray-500);margin-top:4px}
+.result-grade{display:inline-block;margin-top:12px;padding:6px 20px;border-radius:20px;font-weight:700;font-size:14px}
+.grade-a{background:#D1FAE5;color:#065F46}
+.grade-b{background:#DBEAFE;color:#1E40AF}
+.grade-c{background:var(--orange-l);color:#92400E}
+.grade-d{background:var(--red-b);color:#991B1B}
+.result-breakdown{display:flex;gap:1rem;justify-content:center;margin-top:1.25rem;flex-wrap:wrap}
+.rb-item{text-align:center}
+.rb-val{font-size:22px;font-weight:800}
+.rb-lab{font-size:11px;color:var(--gray-400);margin-top:1px}
+.green-val{color:var(--green)}.red-val{color:var(--red)}.orange-val{color:var(--orange)}
+.result-actions{display:flex;gap:10px;justify-content:center;margin-top:1.25rem;flex-wrap:wrap}
+
+/* REVIEW SUGGESTIONS */
+.review-card{background:#fff;border-radius:var(--radius);border:1px solid #FCD34D;padding:1.25rem 1.5rem;margin-bottom:1rem;box-shadow:var(--shadow)}
+.review-card h4{font-size:14px;font-weight:700;color:#92400E;margin-bottom:.6rem;display:flex;align-items:center;gap:6px}
+.review-topic{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-top:1px solid var(--gray-100);font-size:13px;color:var(--gray-700)}
+.review-topic .dot{width:6px;height:6px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:5px}
+.review-tip{font-size:12px;color:var(--gray-500);margin-top:2px;line-height:1.5}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center}
+.overlay.show{display:flex}
+.modal{background:#fff;border-radius:var(--radius);padding:1.75rem;max-width:420px;width:90%;text-align:center}
+.modal h3{font-size:17px;font-weight:700;margin-bottom:8px}
+.modal p{font-size:13.5px;color:var(--gray-600);margin-bottom:1.25rem;line-height:1.6}
+.modal-btns{display:flex;gap:8px;justify-content:center}
+
+/* ALERT BOX */
+.alert{padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:1rem;border:1px solid}
+.alert-info{background:#EFF6FF;border-color:#BFDBFE;color:#1E40AF}
+.alert-warning{background:var(--orange-l);border-color:#FCD34D;color:#92400E}
+
+@media(max-width:580px){
+  .nav{padding:0 .75rem}
+  .main{padding:1rem .75rem}
+  .q-card{padding:1rem}
+  .exam-header{padding:1rem}
+  .stat-row{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-logo">📝 Thư Tín TM</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="goHome()">Trang chủ</button>
+    <button class="nav-tab" onclick="startExam(0)">Review 1</button>
+    <button class="nav-tab" onclick="startExam(1)">Review 2</button>
+    <button class="nav-tab" onclick="startExam(2)">Review 3</button>
+    <button class="nav-tab" onclick="startExam(3)">Review 4</button>
+  </div>
+  <div class="nav-right">
+    <span class="score-pill" id="globalPill">0 đúng</span>
+  </div>
+</div>
+
+<div class="screen active" id="screen-home">
+<div class="main">
+  <div class="hero">
+    <h1>Hệ thống Ôn Tập – Thư Tín Thương Mại</h1>
+    <p>Giảng viên: Phạm Quốc Hưng<br>4 đề ôn tập · Kiểm tra ngay · Đề xuất nội dung cần ôn sau khi hoàn thành</p>
+  </div>
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-val" id="hs-done">0</div><div class="stat-lab">Câu đã làm</div></div>
+    <div class="stat-card"><div class="stat-val" id="hs-correct">0</div><div class="stat-lab">Câu đúng</div></div>
+    <div class="stat-card"><div class="stat-val" id="hs-pct">–</div><div class="stat-lab">Tỉ lệ đúng</div></div>
+  </div>
+  <div class="exam-cards" id="home-cards"></div>
+  <div class="alert alert-info">💡 <strong>Hướng dẫn:</strong> Làm từng câu, hệ thống chỉ báo <strong>Đúng / Sai</strong>. Sau khi nộp bài mới hiển thị đáp án chi tiết và gợi ý ôn tập.</div>
+</div>
+</div>
+
+<div class="screen" id="screen-exam">
+<div class="main">
+  <div id="exam-top"></div>
+  <div id="exam-progress"></div>
+  <div id="exam-content"></div>
+  <div class="submit-wrap" id="exam-submit-wrap"></div>
+  <div id="result-area"></div>
+</div>
+</div>
+
+<div class="overlay" id="modal-reset">
+  <div class="modal">
+    <h3>Làm lại từ đầu?</h3>
+    <p>Toàn bộ câu trả lời của đề này sẽ bị xóa. Bạn có chắc không?</p>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="confirmReset()">Làm lại</button>
+      <button class="btn btn-outline" onclick="closeModal()">Hủy</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="modal-incomplete">
+  <div class="modal">
+    <h3>Còn câu chưa làm</h3>
+    <p>Bạn vẫn còn <span id="incomplete-count"></span> câu chưa trả lời. Nộp bài bây giờ sẽ tính những câu đó là sai. Tiếp tục?</p>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="doSubmit()">Nộp bài</button>
+      <button class="btn btn-outline" onclick="closeModal()">Làm tiếp</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+//  DATA
+// ─────────────────────────────────────────────
+const EXAMS = [
+// ═══════════════════════════════════════════
+// REVIEW 1 – Chương 1–2: Cấu trúc thư thương mại
+// ═══════════════════════════════════════════
+{
+  title:"Review 1",
+  subtitle:"Chương 1–2: Cấu trúc & Nguyên tắc viết thư thương mại",
+  icon:"📝",
+  tags:["Chương 1–2"],
+  p1:{
+    title:"Part 1: Chọn đáp án đúng nhất (10 câu)",
+    qs:[
+      {q:"Which of the following best describes the Full Block format of a business letter?",
+       opts:["All parts are aligned to the left margin","The date is placed on the right side","Only the signature is centered","Paragraphs are indented 5 spaces"],
+       ans:0, exp:"Full Block: tất cả các phần đều canh lề trái, không thụt đầu dòng. Phổ biến nhất trong thư thương mại quốc tế hiện đại.", chapter:"C1–2"},
+      {q:"According to the 8 C's of business writing, which quality refers to using only the necessary number of words?",
+       opts:["Courtesy","Conciseness","Correctness","Clarity"],
+       ans:1, exp:"Conciseness = ngắn gọn súc tích – chỉ dùng số từ cần thiết, tránh lặp và từ thừa.", chapter:"C1–2"},
+      {q:"What is the purpose of the attention line in a business letter?",
+       opts:["To greet the recipient","To identify the subject of the letter","To direct the letter to a specific person or department","To list all attachments"],
+       ans:2, exp:"Attention line chỉ định gửi thư đến cá nhân hoặc phòng ban cụ thể (VD: 'Attn: Sales Dept.'). Không phải lời chào hay tiêu đề.", chapter:"C1–2"},
+      {q:"Which of the following is the correct position of the inside address in a business letter?",
+       opts:["Centered at the top of the letter","Below the complimentary close","At the right-hand side below the date","At the left-hand side, above the salutation"],
+       ans:3, exp:"Inside address đặt bên trái, phía trên salutation. Gồm tên, chức vụ và địa chỉ đầy đủ của người nhận.", chapter:"C1–2"},
+      {q:"Which salutation is most appropriate when writing to an unknown recipient (British style)?",
+       opts:["Gentlemen:","Dear Friend","To Whom It May Concern:","Dear Sir or Madam"],
+       ans:3, exp:"'Dear Sir or Madam' là salutation chuẩn (British) khi không biết giới tính người nhận. Kết thúc bằng 'Yours faithfully'.", chapter:"C1–2"},
+      {q:"In the Modified Block (Block Form) format, which parts are placed to the right of centre?",
+       opts:["The date, complimentary close, and signature block","All parts including the subject line","The inside address and salutation","The body paragraphs and enclosure"],
+       ans:0, exp:"Modified Block: date, complimentary close và signature block đặt về bên phải; inside address, salutation, body vẫn lề trái.", chapter:"C1–2"},
+      {q:"Which of the following is the 'You' attitude in business correspondence?",
+       opts:["I would like to inform you of our policy change.","Your order will be processed within two working days.","We believe our service is the best.","We are proud to announce our new catalogue."],
+       ans:1, exp:"'You' attitude: tập trung vào lợi ích người đọc, dùng 'your/you' thay vì 'we/I'. Câu C hướng đến người nhận.", chapter:"C1–2"},
+      {q:"What does 'cc:' notation in a business letter indicate?",
+       opts:["Other individuals who will also receive a copy","The typist's initials","The number of enclosed documents","The letter has been certified correct"],
+       ans:0, exp:"cc: (carbon copy) = danh sách những người nhận bản sao thư. Phân biệt: Enc. = tài liệu đính kèm; Ref: = mã tham chiếu.", chapter:"C1–2"},
+      {q:"Which 8 C quality ensures that a business letter contains all the necessary information the reader needs?",
+       opts:["Courtesy","Conciseness","Clarity","Completeness"],
+       ans:3, exp:"Completeness = đầy đủ thông tin – thư phải trả lời đủ câu hỏi ai, cái gì, khi nào, ở đâu, tại sao, như thế nào.", chapter:"C1–2"},
+      {q:"What is the function of the subject line (Re:) in a business letter?",
+       opts:["To replace the salutation when the recipient is unknown","To list all enclosures attached to the letter","To state the main topic so the reader can identify the letter's purpose at a glance","To record the file or reference number of the document"],
+       ans:2, exp:"Subject line (Re:) giúp người nhận nhận biết ngay nội dung thư, dễ lưu hồ sơ và phân loại. Không thay thế salutation.", chapter:"C1–2"},
+    ]
+  },
+  p2:{
+    title:"Part 2: Ghép nghĩa (5 câu)",
+    words:[["A","letterhead"],["B","enclosure"],["C","salutation"],["D","complimentary close"],["E","inside address"],["F","postscript"],["G","conciseness"],["H","carbon copy"]],
+    qs:[
+      {q:"The formal greeting at the beginning of a business letter, such as 'Dear Mr. Brown'", ans:"C", exp:"Salutation = lời chào mở đầu thư. British: 'Dear Sir/Madam' → 'Yours faithfully'; 'Dear Mr. Smith' → 'Yours sincerely'.", chapter:"C1–2"},
+      {q:"The printed heading at the top of official letter paper showing company name, logo, address, and contact details", ans:"A", exp:"Letterhead = tiêu đề in sẵn, chỉ dùng ở trang đầu. Các trang sau dùng continuation sheet với header đơn giản.", chapter:"C1–2"},
+      {q:"A brief note added after the writer's signature at the end of a letter, usually abbreviated as P.S.", ans:"F", exp:"Postscript (P.S.) = ghi chú thêm sau chữ ký. Không khuyến khích trong thư thương mại – thể hiện lập kế hoạch kém.", chapter:"C1–2"},
+      {q:"Additional documents or materials sent together with a letter", ans:"B", exp:"Enclosure = tài liệu đính kèm. Cuối thư ghi 'Enc.' hoặc 'Encl.' để thông báo. VD: catalogue, hóa đơn, báo giá.", chapter:"C1–2"},
+      {q:"The closing phrase before the signature, such as 'Yours sincerely' or 'Yours faithfully'", ans:"D", exp:"Complimentary close phải tương ứng với salutation: 'Dear Sir/Madam' → 'Yours faithfully'; 'Dear Mr. X' → 'Yours sincerely'.", chapter:"C1–2"},
+    ]
+  },
+  p3:{
+    title:"Part 3: Đúng / Sai (7 câu)",
+    qs:[
+      {q:"In the Semi-Block format, the date, complimentary close, and signature block are indented to the centre.", ans:true, exp:"Đúng. Semi-Block (Modified Block): date, close, signature về phía trung tâm/phải; thân thư thụt đầu dòng. Phân biệt Full Block (tất cả lề trái).", chapter:"C1–2"},
+      {q:"The letterhead of a business letter is reprinted on every page of a multi-page letter.", ans:false, exp:"Sai. Letterhead chỉ ở trang đầu. Trang sau dùng plain paper với header tối giản (tên người nhận, số trang, ngày).", chapter:"C1–2"},
+      {q:"According to the 8 C's, 'Correctness' refers only to grammar and spelling, not to the format of the letter.", ans:false, exp:"Sai. Correctness bao gồm ngữ pháp, chính tả, dấu câu, format thư và tính chính xác của thông tin.", chapter:"C1–2"},
+      {q:"The complimentary close must always match the level of formality of the salutation.", ans:true, exp:"Đúng. 'Dear Sir/Madam' → 'Yours faithfully'; 'Dear Mr. Smith' → 'Yours sincerely'. Dùng sai là thiếu chuyên nghiệp.", chapter:"C1–2"},
+      {q:"A postscript (P.S.) is commonly used and is considered a mark of good letter construction.", ans:false, exp:"Sai. P.S. KHÔNG được khuyến khích – cho thấy người viết không tổ chức nội dung tốt. Nếu cần bổ sung, viết lại thư.", chapter:"C1–2"},
+      {q:"In the Full Block format, all parts of the letter, including paragraphs, are aligned to the left margin with no indentation.", ans:true, exp:"Đúng. Full Block: hoàn toàn lề trái, không thụt đầu dòng, các đoạn cách nhau bằng một dòng trống.", chapter:"C1–2"},
+      {q:"The reference line in a business letter always appears immediately after the inside address.", ans:false, exp:"Sai. Reference line có thể đặt ngay sau letterhead (dưới date) hoặc sau inside address – tuỳ quy ước mỗi tổ chức, không có vị trí cố định bắt buộc.", chapter:"C1–2"},
+    ]
+  },
+  p4:{
+    title:"Part 4: Điền từ (8 câu)",
+    words:[["A","acknowledge"],["B","clarity"],["C","sincerely"],["D","enclosed"],["E","faithfully"],["F","courtesy"],["G","subject"],["H","complimentary"]],
+    qs:[
+      {q:"We are writing to ________ receipt of your letter dated 15th November and thank you for your enquiry.", ans:"acknowledge", letter:"A", exp:"'acknowledge receipt of' = xác nhận đã nhận được. Cụm cố định mở đầu thư phản hồi.", chapter:"C1–2"},
+      {q:"Please find ________ our latest catalogue and price list as requested.", ans:"enclosed", letter:"D", exp:"'find enclosed' = tìm thấy đính kèm đây. Cụm thông báo tài liệu đính kèm trong thư thương mại.", chapter:"C1–2"},
+      {q:"The 8 C's quality of ________ ensures the letter uses precise, familiar words that avoid confusion.", ans:"clarity", letter:"B", exp:"Clarity = rõ ràng – dùng từ đơn giản, chính xác, tránh mơ hồ. Không nhầm với Conciseness (ngắn gọn).", chapter:"C1–2"},
+      {q:"Yours ________, [Signature] — used when the recipient's name is known.", ans:"sincerely", letter:"C", exp:"'Yours sincerely' dùng khi biết tên người nhận ('Dear Mr./Ms. X'). 'Yours faithfully' dùng khi không biết tên.", chapter:"C1–2"},
+      {q:"Yours ________, [Signature] — used when writing 'Dear Sir or Madam'.", ans:"faithfully", letter:"E", exp:"'Yours faithfully' đi cùng 'Dear Sir or Madam'. Đây là quy tắc cứng trong British English.", chapter:"C1–2"},
+      {q:"One of the 8 C's, ________ means showing respect and politeness in every part of the letter.", ans:"courtesy", letter:"F", exp:"Courtesy = lịch sự, tôn trọng – thể hiện qua từ ngữ, giọng điệu và cách trình bày. 'You' attitude là một biểu hiện của courtesy.", chapter:"C1–2"},
+      {q:"The ________ line (Re:) immediately tells the reader what the letter is about before they read the body.", ans:"subject", letter:"G", exp:"Subject line (Re:) = dòng tiêu đề thư, giúp người nhận xác định ngay nội dung, dễ lưu hồ sơ.", chapter:"C1–2"},
+      {q:"The ________ close is the polite ending phrase before the writer's signature, e.g. 'Yours sincerely'.", ans:"complimentary", letter:"H", exp:"Complimentary close = lời kết lịch sự trước chữ ký. Phải tương ứng với salutation về mức độ trang trọng.", chapter:"C1–2"},
+    ]
+  }
+},
+// ═══════════════════════════════════════════
+// REVIEW 2 – Chương 3–4: Inquiry & Reply
+// ═══════════════════════════════════════════
+{
+  title:"Review 2",
+  subtitle:"Chương 3–4: Thư hỏi hàng & Thư trả lời hỏi hàng",
+  icon:"📬",
+  tags:["Chương 3–4"],
+  p1:{
+    title:"Part 1: Chọn đáp án đúng nhất (10 câu)",
+    qs:[
+      {q:"In a business inquiry letter, what does the opening paragraph usually contain?",
+       opts:["The reason for writing and source of information","Delivery and shipping instructions","Payment terms and conditions","A list of prices and discounts"],
+       ans:0, exp:"Opening của inquiry letter nêu lý do viết và nguồn thông tin (quảng cáo, triển lãm…). Không bắt đầu ngay bằng giá hay điều kiện giao hàng.", chapter:"C3–4"},
+      {q:"Which of the following is NOT appropriate to include in a reply to an inquiry?",
+       opts:["Encouragement to place an order","Personal opinions about the competitor's products","Willingness to provide further assistance","Full product descriptions and price lists"],
+       ans:1, exp:"Tuyệt đối không đưa ý kiến về sản phẩm đối thủ – thiếu chuyên nghiệp và có thể gây tranh chấp pháp lý.", chapter:"C3–4"},
+      {q:"What does the abbreviation 'FOB' stand for in international trade?",
+       opts:["Full Order Billing","Freight on Behalf","Free on Board","Form of Booking"],
+       ans:2, exp:"FOB = Free on Board: người bán chịu chi phí và rủi ro đến khi hàng xếp lên tàu. Từ đó rủi ro chuyển sang người mua.", chapter:"C3–4"},
+      {q:"What is a 'general inquiry' in business correspondence?",
+       opts:["An inquiry following up on a previous order","A formal complaint about late delivery","An inquiry requesting a specific product catalogue only","A broad request for information about a company's goods or services in general"],
+       ans:3, exp:"General inquiry = hỏi tổng quát về sản phẩm/dịch vụ chưa chỉ định. Phân biệt: Specific inquiry = hỏi chi tiết sản phẩm đã biết.", chapter:"C3–4"},
+      {q:"Which of the following is an appropriate OPENING sentence for a reply to an inquiry?",
+       opts:["Thank you for your letter of 5th March inquiring about our products.","Please find enclosed our invoice for the goods ordered.","We are writing to acknowledge receipt of your order.","We regret to inform you that our goods are out of stock."],
+       ans:1, exp:"Reply to inquiry nên mở đầu bằng cảm ơn và đề cập thư gốc. Câu B chuẩn nhất – lịch sự và trực tiếp vào vấn đề.", chapter:"C3–4"},
+      {q:"When writing an inquiry letter on behalf of a prospective customer, what information is often included in the opening?",
+       opts:["Details about the recipient's competitors","The sender's banking details","A list of previous suppliers","The name and address of the prospective customer"],
+       ans:3, exp:"Khi viết thay mặt khách hàng tiềm năng, cần nêu tên và địa chỉ của họ để nhà cung cấp biết gửi catalogue/báo giá đến đâu.", chapter:"C3–4"},
+      {q:"What should a seller include in a reply to an inquiry to encourage the buyer to place an order?",
+       opts:["A list of the buyer's competitors","Special terms, discounts, or an invitation to visit a showroom","A request for the buyer's financial statements","A demand for immediate payment"],
+       ans:1, exp:"Để khuyến khích đặt hàng, reply to inquiry nên kèm điều kiện hấp dẫn: chiết khấu, mẫu hàng, lời mời xem hàng trực tiếp…", chapter:"C3–4"},
+      {q:"What does 'CIF' stand for in international trade?",
+       opts:["Confirmed Invoice Form","Cargo Import Fee","Cost, Insurance, and Freight","Customs, Import, and Finance"],
+       ans:2, exp:"CIF = Cost, Insurance, Freight: người bán chịu giá hàng + bảo hiểm + cước đến cảng đích. Phân biệt FOB (người bán chịu đến khi lên tàu).", chapter:"C3–4"},
+      {q:"Which of the following is the 'You' attitude applied correctly in a reply to an inquiry?",
+       opts:["You will find our new catalogue useful for selecting the products you need.","We offer the best quality in the market.","We are pleased to send you our catalogue.","Our company has been in business for 50 years."],
+       ans:0, exp:"'You' attitude: đặt người đọc làm trung tâm. Câu C dùng 'You/your' và nêu lợi ích trực tiếp cho người nhận.", chapter:"C3–4"},
+      {q:"A reply to an inquiry should ideally be sent:",
+       opts:["After consulting with senior management regardless of urgency","At the end of each month as part of routine correspondence","Only when the goods are available for immediate delivery","Within a few days of receiving the inquiry"],
+       ans:3, exp:"Phản hồi inquiry cần nhanh (trong vài ngày) để thể hiện sự chuyên nghiệp và giữ khách hàng tiềm năng. Trả lời muộn = mất cơ hội.", chapter:"C3–4"},
+    ]
+  },
+  p2:{
+    title:"Part 2: Ghép nghĩa (5 câu)",
+    words:[["A","catalogue"],["B","inquiry"],["C","quotation"],["D","pro forma invoice"],["E","trade discount"],["F","rebate"],["G","testimonial"],["H","opening paragraph"]],
+    qs:[
+      {q:"A formal request for information about products, services, prices, or terms", ans:"B", exp:"Inquiry = thư hỏi hàng / yêu cầu thông tin. Có thể là general (tổng quát) hoặc specific (cụ thể về sản phẩm).", chapter:"C3–4"},
+      {q:"A document listing all available products with their descriptions and prices, used for ordering", ans:"A", exp:"Catalogue = danh mục sản phẩm kèm mô tả và giá. Thường được gửi kèm reply to inquiry để khách dễ chọn hàng.", chapter:"C3–4"},
+      {q:"A document stating the price, terms, and conditions for specific goods or services offered to a buyer", ans:"C", exp:"Quotation = báo giá chính thức, nêu rõ giá, điều kiện thanh toán, giao hàng. Có giá trị pháp lý khi được chấp nhận.", chapter:"C3–4"},
+      {q:"A reduction in price given to a business customer as part of a trade agreement", ans:"E", exp:"Trade discount = chiết khấu thương mại cho đối tác/đại lý. Khác retail discount (cho người tiêu dùng cuối).", chapter:"C3–4"},
+      {q:"An invoice sent before goods are dispatched, used to confirm order details or for customs purposes", ans:"D", exp:"Pro forma invoice = hóa đơn chiếu lệ, gửi trước khi giao hàng để xác nhận chi tiết đơn hàng hoặc làm thủ tục hải quan.", chapter:"C3–4"},
+    ]
+  },
+  p3:{
+    title:"Part 3: Đúng / Sai (7 câu)",
+    qs:[
+      {q:"A general inquiry is a broad request for information about a company's range of goods or services.", ans:true, exp:"Đúng. General inquiry hỏi tổng quát (không chỉ định sản phẩm). Specific inquiry hỏi chi tiết sản phẩm đã biết.", chapter:"C3–4"},
+      {q:"A reply to an inquiry should only answer the specific questions asked and should not include any additional promotional information.", ans:false, exp:"Sai. Reply nên vừa trả lời câu hỏi VỪA thêm thông tin khuyến mãi (ưu đãi, mẫu hàng, lời mời) để thúc đẩy đặt hàng.", chapter:"C3–4"},
+      {q:"When writing an inquiry letter, it is acceptable to ask about prices, discounts, delivery times, and payment terms in the same letter.", ans:true, exp:"Đúng. Inquiry letter có thể hỏi nhiều vấn đề cùng lúc: giá, chiết khấu, thời gian giao hàng, điều kiện thanh toán, mẫu hàng…", chapter:"C3–4"},
+      {q:"An inquiry letter should always be written in informal language to appear friendly and approachable.", ans:false, exp:"Sai. Inquiry letter phải dùng ngôn ngữ trang trọng, chuyên nghiệp dù giọng điệu thân thiện. Informal language không phù hợp trong thư thương mại.", chapter:"C3–4"},
+      {q:"FOB means the seller is responsible for all costs and risks until the goods are loaded onto the ship at the port of export.", ans:true, exp:"Đúng. FOB (Free on Board): người bán chịu mọi chi phí và rủi ro đến khi hàng qua lan can tàu tại cảng xuất.", chapter:"C3–4"},
+      {q:"CIF pricing means the buyer is responsible for arranging and paying for insurance and freight.", ans:false, exp:"Sai. CIF = Cost, Insurance, Freight: người BÁN chịu phí hàng + bảo hiểm + cước đến cảng đích. Người mua chỉ chịu sau khi hàng cập cảng.", chapter:"C3–4"},
+      {q:"A reply to an inquiry should be sent as quickly as possible to show professionalism and maintain customer interest.", ans:true, exp:"Đúng. Phản hồi nhanh thể hiện sự chuyên nghiệp và giữ được sự quan tâm của khách hàng tiềm năng.", chapter:"C3–4"},
+    ]
+  },
+  p4:{
+    title:"Part 4: Điền từ (8 câu)",
+    words:[["A","reference"],["B","availability"],["C","assure"],["D","forward"],["E","obliged"],["F","substitute"],["G","accommodate"],["H","inspection"]],
+    qs:[
+      {q:"We are writing with ________ to your advertisement in the Business Daily, dated 12th March.", ans:"reference", letter:"A", exp:"'with reference to' = cụm giới từ cố định mở đầu thư, đề cập nguồn thông tin hoặc sự kiện đã biết.", chapter:"C3–4"},
+      {q:"We would be grateful if you could send us information about the ________ of the products listed in your catalogue.", ans:"availability", letter:"B", exp:"'availability of products' = tình trạng có hàng / khả năng cung ứng. Hỏi xem sản phẩm còn trong kho hay không.", chapter:"C3–4"},
+      {q:"Please ________ the goods to the address stated on the enclosed order form.", ans:"forward", letter:"D", exp:"'forward the goods to' = chuyển / giao hàng đến. Phân biệt 'deliver' (giao tận nơi) và 'forward' (chuyển tiếp).", chapter:"C3–4"},
+      {q:"We ________ you that all our products meet international quality and safety standards.", ans:"assure", letter:"C", exp:"'assure you that' = đảm bảo với bạn rằng. Cụm cam kết uy tín thường gặp trong thư thương mại.", chapter:"C3–4"},
+      {q:"We would be happy to offer a ________ product of similar quality if the requested item is no longer available.", ans:"substitute", letter:"F", exp:"'substitute product' = sản phẩm thay thế. Dùng khi hàng yêu cầu hết kho, đề nghị sản phẩm tương đương.", chapter:"C3–4"},
+      {q:"We trust you will make every effort to ________ us, as we intend to place regular orders throughout the year.", ans:"accommodate", letter:"G", exp:"'accommodate us' = đáp ứng yêu cầu / phục vụ chúng tôi. Hàm ý tiềm năng đặt hàng lớn và thường xuyên.", chapter:"C3–4"},
+      {q:"We would ________ if you could confirm receipt of this letter and the enclosed order.", ans:"obliged", letter:"E", exp:"'We would be obliged if…' = Chúng tôi sẽ rất biết ơn nếu… Cụm lịch sự khi yêu cầu xác nhận hoặc hành động.", chapter:"C3–4"},
+      {q:"All goods are subject to ________ upon arrival before full payment is released.", ans:"inspection", letter:"H", exp:"'subject to inspection upon arrival' = phải được kiểm tra khi nhận hàng trước khi thanh toán đầy đủ.", chapter:"C3–4"},
+    ]
+  }
+},
+// ═══════════════════════════════════════════
+// REVIEW 3 – Chương 5, 6–7
+// ═══════════════════════════════════════════
+{
+  title:"Review 3",
+  subtitle:"Chương 5: Order Letters · Chương 6–7: Complaint & Adjustment",
+  icon:"📦",
+  tags:["Chương 5","Chương 6–7"],
+  p1:{
+    title:"Part 1: Chọn đáp án đúng nhất (10 câu)",
+    qs:[
+      {q:"Which of the following is NOT recommended when placing an order by letter?",
+       opts:["Using vague language to allow flexibility","Specifying the required delivery date","Stating full description, quantities, and prices","Including the agreed payment terms"],
+       ans:0, exp:"Thư đặt hàng phải rõ ràng, chính xác. Dùng ngôn ngữ mơ hồ dễ gây tranh chấp về số lượng, quy cách, giá.", chapter:"C5"},
+      {q:"What is the main advantage of placing an order using a pre-printed order form?",
+       opts:["It does not require a signature","It allows informal communication","It replaces the need for a covering letter","Vital details are less likely to be overlooked"],
+       ans:3, exp:"Form đặt hàng in sẵn giúp không bỏ sót thông tin quan trọng. Không thay thế covering letter khi cần bổ sung thêm.", chapter:"C5"},
+      {q:"What should a seller do when an order cannot be filled due to an out-of-stock situation?",
+       opts:["Inform the customer and suggest an alternative product","Offer a refund without explanation","Ignore the order until stock is available","Cancel the customer's account"],
+       ans:0, exp:"Người bán phải thông báo ngay và đề xuất sản phẩm thay thế – vừa chuyên nghiệp vừa giữ được khách hàng.", chapter:"C5"},
+      {q:"What does 'CIF' stand for in international shipping?",
+       opts:["Customs, Insurance, and Finance","Confirmed Invoice Form","Cargo Import Fee","Cost, Insurance, and Freight"],
+       ans:3, exp:"CIF = Cost, Insurance, Freight: người bán chịu chi phí hàng + bảo hiểm + cước vận chuyển đến cảng đích.", chapter:"C5"},
+      {q:"What is the buyer's legal responsibility upon receiving goods?",
+       opts:["Verifying the goods immediately and reporting faults promptly","Returning all goods within 30 days","Requesting a new order form","Sending an invoice to the supplier"],
+       ans:0, exp:"Người mua phải kiểm tra hàng ngay khi nhận và báo lỗi kịp thời. Nếu chậm, có thể mất quyền khiếu nại.", chapter:"C5"},
+      {q:"Which of the following best describes the purpose of a complaint letter?",
+       opts:["To place a new order for goods","To report a problem and request a solution","To confirm the receipt of a shipment","To inquire about product pricing"],
+       ans:1, exp:"Complaint letter = báo cáo vấn đề (hàng hỏng, giao muộn, hóa đơn sai…) và yêu cầu giải quyết.", chapter:"C6–7"},
+      {q:"What tone should be maintained when writing a complaint letter?",
+       opts:["Vague and general","Angry and threatening","Casual and informal","Firm, reasonable, and courteous"],
+       ans:3, exp:"Complaint letter: firm (vững chắc), reasonable (có lý), courteous (lịch sự). Không nổi nóng – mục tiêu là giải quyết vấn đề.", chapter:"C6–7"},
+      {q:"What is the primary goal of an adjustment letter?",
+       opts:["To investigate the customer's background","To reject the customer's request entirely","To restore the customer's trust in the company","To advertise new products or services"],
+       ans:2, exp:"Adjustment letter nhằm khôi phục lòng tin của khách hàng. Dù chấp nhận hay từ chối, phải duy trì quan hệ và uy tín.", chapter:"C6–7"},
+      {q:"When a complaint is unjustified, the supplier should:",
+       opts:["Ignore the customer's complaint letter","Respond politely and explain why the claim cannot be granted","Offer a full refund immediately","Apologize even though no mistake was made"],
+       ans:1, exp:"Khiếu nại không có căn cứ: trả lời lịch sự, giải thích rõ tại sao không chấp nhận. Không xin lỗi khi không có lỗi.", chapter:"C6–7"},
+      {q:"Which of the following phrases is appropriate for the CLOSING of a complaint letter?",
+       opts:["This is entirely your fault.","We are disgusted by your poor service.","We look forward to you dealing with these questions without delay.","You made an error and must fix it immediately."],
+       ans:2, exp:"Câu C lịch sự nhưng rõ ràng về mong muốn giải quyết nhanh. A, B, D quá aggressive – vi phạm nguyên tắc 'firm but courteous'.", chapter:"C6–7"},
+    ]
+  },
+  p2:{
+    title:"Part 2: Ghép nghĩa (5 câu)",
+    words:[["A","purchase order"],["B","back order"],["C","pro forma invoice"],["D","covering letter"],["E","complaint letter"],["F","adjustment letter"],["G","justified complaint"],["H","goodwill"]],
+    qs:[
+      {q:"An official document issued by a buyer to a seller, indicating the types, quantities, and agreed prices for products or services", ans:"A", exp:"Purchase order = đơn đặt hàng chính thức. Có giá trị pháp lý ràng buộc cả hai bên về số lượng, giá và điều kiện.", chapter:"C5"},
+      {q:"A letter sent with an order form to provide additional details that the form alone cannot convey", ans:"D", exp:"Covering letter đi kèm order form khi cần bổ sung: điều kiện đặc biệt, yêu cầu riêng, ghi chú đặc thù.", chapter:"C5"},
+      {q:"An order for goods that are currently out of stock and will be fulfilled when stock becomes available", ans:"B", exp:"Back order = đơn hàng tồn đọng (hàng hết kho). Cần thông báo ngày dự kiến có hàng cho khách.", chapter:"C5"},
+      {q:"A letter written in response to a complaint, which either grants or rejects the customer's request for correction", ans:"F", exp:"Adjustment letter do nhà cung cấp viết. Có thể grant (chấp nhận) hoặc reject (từ chối) yêu cầu của khách.", chapter:"C6–7"},
+      {q:"The positive reputation and trust a company builds with customers through honest and professional dealings", ans:"H", exp:"Goodwill = uy tín/thiện chí thương mại. Trong xử lý khiếu nại, mục tiêu quan trọng nhất là duy trì goodwill.", chapter:"C6–7"},
+    ]
+  },
+  p3:{
+    title:"Part 3: Đúng / Sai (7 câu)",
+    qs:[
+      {q:"An order placed by telephone is considered legally binding and does not need to be confirmed in writing.", ans:false, exp:"Sai. Đơn hàng qua điện thoại cần xác nhận bằng văn bản để tránh tranh chấp về số lượng, giá, ngày giao hàng.", chapter:"C5"},
+      {q:"A covering letter sent with an order form is used when there are additional details that the form alone cannot convey.", ans:true, exp:"Đúng. Covering letter bổ sung thông tin mà form không thể hiện: điều kiện đặc biệt, yêu cầu riêng…", chapter:"C5"},
+      {q:"When receiving goods, the buyer is not legally required to inspect them immediately upon arrival.", ans:false, exp:"Sai. Người mua phải kiểm tra hàng ngay khi nhận. Chậm báo lỗi có thể làm mất quyền khiếu nại.", chapter:"C5"},
+      {q:"The language and tone in a complaint letter should be firm, reasonable, and courteous at all times.", ans:true, exp:"Đúng. Ba nguyên tắc vàng: firm (vững chắc), reasonable (có lý), courteous (lịch sự).", chapter:"C6–7"},
+      {q:"When writing a complaint letter, you should assume that your supplier is deliberately trying to cheat you.", ans:false, exp:"Sai. Không nên mặc định lỗi cố ý. Giọng phải khách quan, không buộc tội, để ngỏ giải quyết thiện chí.", chapter:"C6–7"},
+      {q:"In handling complaints, it is important to reply promptly so as not to keep the customer waiting.", ans:true, exp:"Đúng. Phản hồi nhanh thể hiện sự nghiêm túc và giúp duy trì lòng tin. Chậm trễ = thêm thiệt hại cho uy tín.", chapter:"C6–7"},
+      {q:"When replying to an unjustified complaint, the supplier should apologize even if there was no actual mistake on their part.", ans:false, exp:"Sai. Không xin lỗi khi không có lỗi – tạo tiền lệ xấu. Chỉ cần giải thích lịch sự và chuyên nghiệp.", chapter:"C6–7"},
+    ]
+  },
+  p4:{
+    title:"Part 4: Điền từ (8 câu)",
+    words:[["A","damaged"],["B","replacements"],["C","investigation"],["D","apology"],["E","inconvenience"],["F","adjustment"],["G","refund"],["H","politely"]],
+    qs:[
+      {q:"We regret any ________ or loss you have experienced with this shipment and assure you we are looking into the matter.", ans:"inconvenience", letter:"E", exp:"'inconvenience or loss' = sự bất tiện hoặc thiệt hại. Cụm mở đầu thư xử lý khiếu nại, thể hiện thiện chí.", chapter:"C6–7"},
+      {q:"We have dispatched ________ for the broken items, and they should reach you within three working days.", ans:"replacements", letter:"B", exp:"'dispatched replacements' = đã gửi hàng thay thế. Dùng khi giải quyết bằng cách gửi hàng mới thay hàng bị hỏng.", chapter:"C6–7"},
+      {q:"After our thorough ________, we found that the error occurred in our dispatch department, not during transit.", ans:"investigation", letter:"C", exp:"'thorough investigation' = điều tra kỹ lưỡng. Thể hiện sự nghiêm túc trước khi đưa ra kết luận và giải pháp.", chapter:"C6–7"},
+      {q:"We offer our sincere ________ for the delay caused in delivering your order No. 4471.", ans:"apology", letter:"D", exp:"'sincere apology for' = lời xin lỗi chân thành vì. Dùng 'apology' thay vì 'sorry' trong văn phong thương mại.", chapter:"C6–7"},
+      {q:"We are prepared to offer you a 10% ________ on your next order as compensation for the inconvenience caused.", ans:"adjustment", letter:"F", exp:"'10% adjustment' = điều chỉnh giảm 10% (dạng bù đắp). Phân biệt 'refund' (hoàn tiền), 'discount' (chiết khấu).", chapter:"C6–7"},
+      {q:"We have been informed that the goods were ________ during shipping, and we are taking immediate steps to replace them.", ans:"damaged", letter:"A", exp:"'goods were damaged during shipping' = hàng bị hư trong vận chuyển – nguyên nhân phổ biến nhất dẫn đến khiếu nại.", chapter:"C6–7"},
+      {q:"Please note that we have made the necessary ________ to the invoice, and a corrected copy is enclosed herewith.", ans:"adjustment", letter:"F", exp:"'adjustment to the invoice' = điều chỉnh/sửa hóa đơn. Dùng khi hóa đơn có lỗi và gửi kèm bản sửa đổi.", chapter:"C6–7"},
+      {q:"The best way to handle a complaint is to inform the customer ________ that you understand their concern and will resolve it promptly.", ans:"politely", letter:"H", exp:"'inform the customer politely' = thông báo một cách lịch sự. Luôn duy trì sự lịch sự dù tình huống căng thẳng.", chapter:"C6–7"},
+    ]
+  }
+},
+// ═══════════════════════════════════════════
+// REVIEW 4 – Chương 8
+// ═══════════════════════════════════════════
+{
+  title:"Review 4",
+  subtitle:"Chương 8: Payment Methods, Letter of Credit, Payment Request Letters",
+  icon:"💳",
+  tags:["Chương 8"],
+  p1:{
+    title:"Part 1: Chọn đáp án đúng nhất (10 câu)",
+    qs:[
+      {q:"What is the primary purpose of a payment letter in international business?",
+       opts:["To settle financial transactions between trading parties","To negotiate prices with the exporter","To introduce a new supplier to the buyer","To advertise products and attract new buyers"],
+       ans:0, exp:"Thư thanh toán dùng để thực hiện/xác nhận các giao dịch tài chính giữa các bên trong thương mại quốc tế.", chapter:"C8"},
+      {q:"Which of the following payment methods is MOST favorable to the seller?",
+       opts:["Open account","Consignment","Cash-in-advance","Documentary collection"],
+       ans:2, exp:"Cash-in-advance: người mua trả tiền TRƯỚC khi nhận hàng → người bán không có rủi ro tín dụng.", chapter:"C8"},
+      {q:"A Letter of Credit (L/C) is a document issued by:",
+       opts:["The shipping company at port","The government customs authority","The buyer directly to the seller","A bank, on behalf of the buyer"],
+       ans:3, exp:"L/C do NGÂN HÀNG phát hành thay mặt người mua, cam kết thanh toán cho người bán khi đủ điều kiện.", chapter:"C8"},
+      {q:"What type of L/C cannot be changed or cancelled unless all parties agree?",
+       opts:["Irrevocable L/C","Revocable L/C","Transferable L/C","Back-to-back L/C"],
+       ans:0, exp:"Irrevocable L/C: không thể sửa đổi hoặc hủy nếu không có sự đồng ý của tất cả các bên. An toàn hơn revocable.", chapter:"C8"},
+      {q:"Under the consignment method, the exporter receives payment:",
+       opts:["At the time of shipment","Before goods are shipped to the importer","When the L/C is issued by the buyer's bank","After the importer sells the goods"],
+       ans:3, exp:"Consignment: người xuất khẩu chỉ nhận tiền SAU KHI người nhập khẩu bán được hàng. Rủi ro cao nhất cho người bán.", chapter:"C8"},
+      {q:"Which of the following is a disadvantage of the Documentary Collection (D/C) method?",
+       opts:["It is more expensive than a Letter of Credit","It does not provide maximum security for the exporter","It requires cash payment before shipment","It cannot be used in international trade"],
+       ans:1, exp:"D/C: ngân hàng chỉ xử lý chứng từ, KHÔNG cam kết thanh toán. Nếu người mua từ chối, người bán khó đòi tiền.", chapter:"C8"},
+      {q:"What is the role of the beneficiary in a Letter of Credit transaction?",
+       opts:["The seller who is entitled to receive payment","The shipping agent handling the cargo","The party that applies for the L/C from the bank","The bank that issues the Letter of Credit"],
+       ans:0, exp:"Beneficiary = người thụ hưởng L/C (thường là người bán). Được nhận thanh toán khi xuất trình đúng bộ chứng từ.", chapter:"C8"},
+      {q:"In an open account payment method, payment is usually made within:",
+       opts:["6 to 12 months after delivery","Upon placement of the order","1 to 5 days after dispatch","30 to 90 days after shipment"],
+       ans:3, exp:"Open account: giao hàng trước, thanh toán sau trong 30–90 ngày. Thuận lợi cho người mua, rủi ro cho người bán.", chapter:"C8"},
+      {q:"Which statement about a Standby Letter of Credit (SLC) is CORRECT?",
+       opts:["It is used only for domestic financial transactions","It is an assurance of payment issued by a bank on behalf of a client","It replaces the need for any other payment method entirely","It allows the buyer to delay payment indefinitely without penalty"],
+       ans:1, exp:"SLC = bảo lãnh thanh toán dự phòng. Chỉ dùng khi người mua KHÔNG thực hiện nghĩa vụ. Khác commercial L/C.", chapter:"C8"},
+      {q:"When writing a first request for payment, the tone should be:",
+       opts:["Casual and informal","Threatening and urgent","Polite and like an enquiry","Formal and demanding"],
+       ans:2, exp:"Lần đầu nhắc nợ: nhẹ nhàng, lịch sự như nhắc nhở – vì có thể khách chỉ quên. Tăng dần mức độ nếu không phản hồi.", chapter:"C8"},
+    ]
+  },
+  p2:{
+    title:"Part 2: Ghép nghĩa (5 câu)",
+    words:[["A","cash-in-advance"],["B","letter of credit (L/C)"],["C","documentary collection"],["D","consignment"],["E","open account"],["F","remittance"],["G","beneficiary"],["H","escrow"]],
+    qs:[
+      {q:"A payment method where the seller receives full payment before shipping the goods to the buyer", ans:"A", exp:"Cash-in-advance: người mua trả tiền trước. Rủi ro hoàn toàn thuộc về người mua.", chapter:"C8"},
+      {q:"A monetary instrument or fund held by a neutral third party on behalf of two parties in a transaction", ans:"H", exp:"Escrow = tài khoản ký quỹ/trung gian: bên thứ ba trung lập giữ tiền cho đến khi các điều kiện được thực hiện.", chapter:"C8"},
+      {q:"An international trade arrangement where banks handle the collection of payment on behalf of the exporter", ans:"C", exp:"Documentary Collection: ngân hàng thu hộ tiền cho người xuất khẩu. Ít bảo đảm hơn L/C.", chapter:"C8"},
+      {q:"The person or party who is entitled to receive payment under a Letter of Credit", ans:"G", exp:"Beneficiary = người thụ hưởng L/C. Thường là người bán/xuất khẩu – nhận tiền khi hoàn thành đúng điều kiện L/C.", chapter:"C8"},
+      {q:"A payment arrangement where goods are shipped and delivered first, and payment is made later — typically within 30 to 90 days", ans:"E", exp:"Open account: giao hàng trước, thanh toán sau (30–90 ngày). Phổ biến giữa đối tác tin cậy, rủi ro cho người bán.", chapter:"C8"},
+    ]
+  },
+  p3:{
+    title:"Part 3: Đúng / Sai (7 câu)",
+    qs:[
+      {q:"Cash-in-advance is the least attractive method of payment for buyers because they bear all the risk.", ans:true, exp:"Đúng. Cash-in-advance rủi ro nhất cho người mua: trả tiền trước khi nhận hàng – nếu hàng không đến hoặc lỗi, khó đòi lại.", chapter:"C8"},
+      {q:"A revocable Letter of Credit can be changed or cancelled by the issuing bank at any time without notice to the beneficiary.", ans:true, exp:"Đúng. Revocable L/C có thể bị hủy/sửa mà không cần thông báo – rất bất lợi cho người bán. Ít dùng hiện nay.", chapter:"C8"},
+      {q:"A transferable L/C allows the rights and responsibilities to be passed to another beneficiary, usually a manufacturer or wholesaler.", ans:true, exp:"Đúng. Transferable L/C cho phép người thụ hưởng thứ nhất (thường là nhà môi giới) chuyển quyền cho bên thứ ba.", chapter:"C8"},
+      {q:"A confirmed Letter of Credit provides more security than an unconfirmed letter of credit.", ans:true, exp:"Đúng. Confirmed L/C có thêm ngân hàng thứ hai (tại nước người bán) cam kết thanh toán – bảo đảm gấp đôi.", chapter:"C8"},
+      {q:"Under the consignment method, the seller retains ownership of the goods until the importer sells them.", ans:true, exp:"Đúng. Consignment: người bán vẫn giữ quyền sở hữu cho đến khi người nhập khẩu bán được. Rủi ro tồn kho thuộc về người bán.", chapter:"C8"},
+      {q:"In a Documentary Collection, the banks involved provide full authentication and maximum security against unpaid merchandise.", ans:false, exp:"Sai. Trong D/C, ngân hàng chỉ xử lý và chuyển chứng từ – KHÔNG bảo lãnh thanh toán như L/C.", chapter:"C8"},
+      {q:"A first request for payment should be short and polite, simply reminding the customer of the due amount.", ans:true, exp:"Đúng. Lần đầu: ngắn gọn, lịch sự như nhắc nhở. Tăng dần: lần 2 hỏi lý do, lần 3 cứng rắn hơn.", chapter:"C8"},
+    ]
+  },
+  p4:{
+    title:"Part 4: Điền từ (8 câu)",
+    words:[["A","settlement"],["B","outstanding"],["C","irrevocable"],["D","remittance"],["E","overdue"],["F","beneficiary"],["G","acknowledge"],["H","shipment"]],
+    qs:[
+      {q:"We regret to inform you that your account is ________ by 60 days and we have yet to receive your payment.", ans:"overdue", letter:"E", exp:"'account is overdue by 60 days' = tài khoản đã quá hạn 60 ngày. Overdue = quá thời hạn thanh toán.", chapter:"C8"},
+      {q:"Please find enclosed our bank ________ for the amount of USD 8,500 as full payment of your invoice No. 2031.", ans:"remittance", letter:"D", exp:"'bank remittance' = lệnh/khoản chuyển tiền ngân hàng. 'Find enclosed our bank remittance' → thông báo đã chuyển khoản.", chapter:"C8"},
+      {q:"We would be grateful if you could kindly ________ receipt of the payment we transferred last Monday.", ans:"acknowledge", letter:"G", exp:"'acknowledge receipt of' = xác nhận đã nhận được. Cụm cố định yêu cầu đối tác xác nhận nhận tiền/thư/hàng.", chapter:"C8"},
+      {q:"We kindly request that you make the ________ of the outstanding balance no later than 30th June.", ans:"settlement", letter:"A", exp:"'settlement of the outstanding balance' = thanh toán số dư còn lại. 'Make the settlement' = thực hiện thanh toán.", chapter:"C8"},
+      {q:"We would like to remind you that there is an ________ balance of USD 4,700 from your March statement.", ans:"outstanding", letter:"B", exp:"'outstanding balance' = số dư chưa thanh toán. Phân biệt 'overdue' (đã quá hạn) – outstanding chưa hẳn là quá hạn.", chapter:"C8"},
+      {q:"The ________ L/C assures the seller that payment will not be revoked once all required conditions are fulfilled.", ans:"irrevocable", letter:"C", exp:"'irrevocable L/C' = thư tín dụng không thể hủy bỏ. Không thể sửa đổi/hủy nếu không có sự đồng ý của tất cả bên.", chapter:"C8"},
+      {q:"The bank has confirmed that the ________ of the goods has been completed and all documents are ready for collection.", ans:"shipment", letter:"H", exp:"'shipment of the goods has been completed' = việc vận chuyển hàng đã hoàn tất. Bộ chứng từ sẵn sàng để nhận.", chapter:"C8"},
+      {q:"As the ________ of the L/C, you are guaranteed to receive payment once all required documents are submitted to the bank.", ans:"beneficiary", letter:"F", exp:"'As the beneficiary of the L/C' = với tư cách người thụ hưởng. Được bảo đảm nhận tiền khi xuất trình đúng chứng từ.", chapter:"C8"},
+    ]
+  }
+}
+]
+// ─────────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────────
+let currentExam = null;
+let state = {}; // {examIdx: {p1:[null|idx], p2:[null|str], p3:[null|bool], p4:[null|str], submitted:false}}
+
+function initState(eid) {
+  if (!state[eid]) {
+    const ex = EXAMS[eid];
+    state[eid] = {
+      p1: Array(ex.p1.qs.length).fill(null),
+      p2: Array(ex.p2.qs.length).fill(null),
+      p3: Array(ex.p3.qs.length).fill(null),
+      p4: Array(ex.p4.qs.length).fill(null),
+      submitted: false
+    };
+  }
+}
+
+function totalQ(eid) {
+  const ex = EXAMS[eid];
+  return ex.p1.qs.length + ex.p2.qs.length + ex.p3.qs.length + ex.p4.qs.length;
+}
+
+function answeredCount(eid) {
+  const s = state[eid];
+  if (!s) return 0;
+  return [...s.p1,...s.p2,...s.p3,...s.p4].filter(v=>v!==null).length;
+}
+
+function correctCount(eid) {
+  if (!state[eid] || !state[eid].submitted) return 0;
+  const ex = EXAMS[eid]; const s = state[eid];
+  let c = 0;
+  s.p1.forEach((v,i)=>{ if(v===ex.p1.qs[i].ans) c++; });
+  s.p2.forEach((v,i)=>{ if(v!==null && v.trim().toUpperCase()===ex.p2.qs[i].ans.toUpperCase()) c++; });
+  s.p3.forEach((v,i)=>{ if(v===ex.p3.qs[i].ans) c++; });
+  s.p4.forEach((v,i)=>{ if(v!==null && checkFill(v,ex.p4.qs[i])) c++; });
+  return c;
+}
+
+function checkFill(val, q) {
+  const v = val.trim().toLowerCase();
+  return v === q.ans.toLowerCase() || v === q.letter.toLowerCase();
+}
+
+// ─────────────────────────────────────────────
+//  GLOBAL SCORE
+// ─────────────────────────────────────────────
+function updateGlobal() {
+  let done=0, correct=0;
+  [0,1,2,3].forEach(eid=>{
+    if (!state[eid]||!state[eid].submitted) return;
+    done += totalQ(eid);
+    correct += correctCount(eid);
+  });
+  document.getElementById('globalPill').textContent = correct + ' đúng';
+  document.getElementById('hs-done').textContent = done;
+  document.getElementById('hs-correct').textContent = correct;
+  document.getElementById('hs-pct').textContent = done>0 ? Math.round(correct/done*100)+'%' : '–';
+  renderHomeCards();
+}
+
+// ─────────────────────────────────────────────
+//  HOME
+// ─────────────────────────────────────────────
+function renderHomeCards() {
+  const wrap = document.getElementById('home-cards');
+  wrap.innerHTML = EXAMS.map((ex,eid)=>{
+    const s = state[eid];
+    const total = totalQ(eid);
+    const answered = s ? answeredCount(eid) : 0;
+    const submitted = s && s.submitted;
+    const correct = submitted ? correctCount(eid) : 0;
+    const pct = total>0 ? Math.round(answered/total*100) : 0;
+    return `<div class="exam-card" onclick="startExam(${eid})">
+      <div class="icon">${ex.icon}</div>
+      <h3>${ex.title}</h3>
+      <p>${ex.subtitle}</p>
+      <div class="tags">${ex.tags.map(t=>`<span class="tag">${t}</span>`).join('')}
+        ${submitted?`<span class="tag done">✓ Đã nộp · ${correct}/${total}</span>`:''}
+      </div>
+      <div class="progress-mini"><div class="progress-mini-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────────
+//  SCREENS
+// ─────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>{
+    t.classList.toggle('active', id==='home'?i===0: i===currentExam+1);
+  });
+}
+
+function goHome() { showScreen('home'); updateGlobal(); }
+
+function startExam(eid) {
+  currentExam = eid;
+  initState(eid);
+  showScreen('exam');
+  renderExam();
+}
+
+// ─────────────────────────────────────────────
+//  RENDER EXAM
+// ─────────────────────────────────────────────
+function renderExam() {
+  const ex = EXAMS[currentExam];
+  const s = state[currentExam];
+  const total = totalQ(currentExam);
+  const answered = answeredCount(currentExam);
+  const pct = Math.round(answered/total*100);
+
+  // Header
+  document.getElementById('exam-top').innerHTML = `
+    <div class="exam-header">
+      <div class="exam-title">${ex.icon} ${ex.title}</div>
+      <div class="exam-sub">${ex.subtitle}</div>
+      <div class="badges">
+        ${ex.tags.map(t=>`<span class="badge badge-blue">${t}</span>`).join('')}
+        <span class="badge badge-green">P1 MCQ · ${ex.p1.qs.length}Q</span>
+        <span class="badge badge-orange">P2 Matching · ${ex.p2.qs.length}Q</span>
+        <span class="badge badge-purple">P3 T/F · ${ex.p3.qs.length}Q</span>
+        <span class="badge badge-blue">P4 Fill-in · ${ex.p4.qs.length}Q</span>
+      </div>
+    </div>`;
+
+  // Progress
+  document.getElementById('exam-progress').innerHTML = `
+    <div class="progress-bar">
+      <div class="progress-info"><span>Tiến độ: ${answered}/${total} câu</span><span>${pct}%</span></div>
+      <div class="bar"><div class="bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+
+  // Content
+  let html = '';
+
+  // PART 1
+  html += `<div class="sec-title">Part 1: Trắc nghiệm (${ex.p1.qs.length} câu)</div>`;
+  ex.p1.qs.forEach((q,i)=>{
+    const picked = s.p1[i];
+    const submitted = s.submitted;
+    const isCorrect = submitted && picked===q.ans;
+    const isWrong = submitted && picked!==null && picked!==q.ans;
+    html += `<div class="q-card ${submitted&&picked!==null?(isCorrect?'correct-card':'wrong-card'):''}" id="p1c${i}">
+      <div class="q-num"><span>Câu ${i+1}</span><span class="chapter-tag">${q.chapter}</span>
+        ${submitted&&picked!==null?`<span class="q-result-icon">${isCorrect?'✅':'❌'}</span>`:''}
+      </div>
+      <div class="q-text">${q.q}</div>
+      <div class="opts">
+        ${'ABCD'.split('').map((lbl,j)=>{
+          let cls='';
+          if(submitted){
+            if(j===q.ans) cls='show-correct';
+            else if(j===picked&&picked!==q.ans) cls='show-wrong';
+            else if(j===picked) cls='show-mychosen';
+          } else if(picked===j) cls='show-mychosen';
+          return `<button class="opt ${cls}" onclick="pickP1(${i},${j})" ${submitted||picked!==null?'disabled':''}>
+            <span class="opt-lbl">${lbl}</span>${q.opts[j]}
+          </button>`;
+        }).join('')}
+      </div>
+      ${submitted&&picked!==null?`<div class="feedback ${isCorrect?'fb-correct':'fb-wrong'} show">
+        <strong>${isCorrect?'✓ Chính xác!':'✗ Chưa đúng. Đáp án: '+(isCorrect?'':q.opts[q.ans])}</strong>${q.exp}
+      </div>`:''}
+    </div>`;
+  });
+
+  // PART 2
+  html += `<div class="sec-title">Part 2: Ghép nghĩa (${ex.p2.qs.length} câu)</div>`;
+  html += `<div class="word-box">${ex.p2.words.map(([l,w])=>`<span class="word-chip"><strong>${l}.</strong> ${w}</span>`).join('')}</div>`;
+  ex.p2.qs.forEach((q,i)=>{
+    const val = s.p2[i];
+    const submitted = s.submitted;
+    const answered = val!==null;
+    const isCorrect = answered && val.trim().toUpperCase()===q.ans.toUpperCase();
+    const isWrong = answered && !isCorrect;
+    html += `<div class="q-card ${submitted&&answered?(isCorrect?'correct-card':'wrong-card'):''}" id="p2c${i}">
+      <div class="q-num"><span>Câu ${ex.p1.qs.length+i+1}</span><span class="chapter-tag">${q.chapter}</span>
+        ${submitted&&answered?`<span class="q-result-icon">${isCorrect?'✅':'❌'}</span>`:''}
+      </div>
+      <div class="q-text">${q.q}</div>
+      <div class="fill-row">
+        <input class="fill-input ${submitted&&answered?(isCorrect?'show-correct':'show-wrong'):''}"
+          type="text" maxlength="1" placeholder="Nhập A–H…"
+          value="${val||''}" id="p2i${i}" ${answered?'disabled':''}
+          onkeydown="if(event.key==='Enter')checkP2(${i})">
+        <button class="check-btn" onclick="checkP2(${i})" ${answered?'disabled':''}>Kiểm tra</button>
+      </div>
+      ${submitted&&answered?`<div class="feedback ${isCorrect?'fb-correct':'fb-wrong'} show">
+        <strong>${isCorrect?`✓ Đúng! ${q.ans} = ${ex.p2.words.find(([l])=>l===q.ans)?.[1]||''}`:
+          `✗ Sai. Đáp án: ${q.ans} (${ex.p2.words.find(([l])=>l===q.ans)?.[1]||''})`}</strong>${q.exp}
+      </div>`:''}
+    </div>`;
+  });
+
+  // PART 3
+  html += `<div class="sec-title">Part 3: Đúng / Sai (${ex.p3.qs.length} câu)</div>`;
+  ex.p3.qs.forEach((q,i)=>{
+    const val = s.p3[i];
+    const submitted = s.submitted;
+    const answered = val!==null;
+    const isCorrect = answered && val===q.ans;
+    const isWrong = answered && !isCorrect;
+    html += `<div class="q-card ${submitted&&answered?(isCorrect?'correct-card':'wrong-card'):''}" id="p3c${i}">
+      <div class="q-num"><span>Câu ${ex.p1.qs.length+ex.p2.qs.length+i+1}</span><span class="chapter-tag">${q.chapter}</span>
+        ${submitted&&answered?`<span class="q-result-icon">${isCorrect?'✅':'❌'}</span>`:''}
+      </div>
+      <div class="q-text">${q.q}</div>
+      <div class="tf-wrap">
+        ${[true,false].map(v=>{
+          let cls='';
+          if(submitted&&answered){
+            if(v===q.ans) cls='show-correct';
+            else if(v===val&&!isCorrect) cls='show-wrong';
+          } else if(val===v) cls='my-pick';
+          return `<button class="tf-btn ${cls}" onclick="pickP3(${i},${v})" ${answered?'disabled':''}>
+            ${v?'True ✓':'False ✗'}
+          </button>`;
+        }).join('')}
+      </div>
+      ${submitted&&answered?`<div class="feedback ${isCorrect?'fb-correct':'fb-wrong'} show">
+        <strong>${isCorrect?'✓ Chính xác!':'✗ Sai. Đáp án: '+(q.ans?'True':'False')}</strong>${q.exp}
+      </div>`:''}
+    </div>`;
+  });
+
+  // PART 4
+  html += `<div class="sec-title">Part 4: Điền từ (${ex.p4.qs.length} câu)</div>`;
+  html += `<div class="word-box">${ex.p4.words.map(([l,w])=>`<span class="word-chip"><strong>${l}.</strong> ${w}</span>`).join('')}</div>`;
+  const p4offset = ex.p1.qs.length+ex.p2.qs.length+ex.p3.qs.length;
+  ex.p4.qs.forEach((q,i)=>{
+    const val = s.p4[i];
+    const submitted = s.submitted;
+    const answered = val!==null;
+    const isCorrect = answered && checkFill(val,q);
+    const isWrong = answered && !isCorrect;
+    html += `<div class="q-card ${submitted&&answered?(isCorrect?'correct-card':'wrong-card'):''}" id="p4c${i}">
+      <div class="q-num"><span>Câu ${p4offset+i+1}</span><span class="chapter-tag">${q.chapter}</span>
+        ${submitted&&answered?`<span class="q-result-icon">${isCorrect?'✅':'❌'}</span>`:''}
+      </div>
+      <div class="q-text">${q.q}</div>
+      <div class="fill-row">
+        <input class="fill-input ${submitted&&answered?(isCorrect?'show-correct':'show-wrong'):''}"
+          type="text" placeholder="Nhập từ hoặc chữ cái (${q.letter})…"
+          value="${val||''}" id="p4i${i}" ${answered?'disabled':''}
+          onkeydown="if(event.key==='Enter')checkP4(${i})">
+        <button class="check-btn" onclick="checkP4(${i})" ${answered?'disabled':''}>Kiểm tra</button>
+      </div>
+      ${submitted&&answered?`<div class="feedback ${isCorrect?'fb-correct':'fb-wrong'} show">
+        <strong>${isCorrect?`✓ Đúng! ${q.ans} (${q.letter})`:
+          `✗ Sai. Đáp án: ${q.ans} (${q.letter})`}</strong>${q.exp}
+      </div>`:''}
+    </div>`;
+  });
+
+  document.getElementById('exam-content').innerHTML = html;
+
+  // Submit / Reset buttons
+  if (!s.submitted) {
+    document.getElementById('exam-submit-wrap').innerHTML = `
+      <button class="btn btn-primary" onclick="trySubmit()">📤 Nộp bài & Xem kết quả</button>
+      <button class="btn btn-outline" style="margin-left:8px" onclick="showResetModal()">🔄 Làm lại</button>
+      <button class="btn btn-outline" style="margin-left:8px" onclick="goHome()">← Trang chủ</button>`;
+  } else {
+    document.getElementById('exam-submit-wrap').innerHTML = `
+      <button class="btn btn-outline" onclick="showResetModal()">🔄 Làm lại từ đầu</button>
+      <button class="btn btn-outline" style="margin-left:8px" onclick="goHome()">← Trang chủ</button>`;
+    renderResult();
+  }
+}
+
+function updateProgress() {
+  const total = totalQ(currentExam);
+  const answered = answeredCount(currentExam);
+  const pct = Math.round(answered/total*100);
+  const el = document.getElementById('exam-progress');
+  if(el) el.innerHTML = `<div class="progress-bar">
+    <div class="progress-info"><span>Tiến độ: ${answered}/${total} câu</span><span>${pct}%</span></div>
+    <div class="bar"><div class="bar-fill" style="width:${pct}%"></div></div>
+  </div>`;
+}
+
+// ─────────────────────────────────────────────
+//  INTERACTIONS (NO ANSWER REVEAL BEFORE SUBMIT)
+// ─────────────────────────────────────────────
+function pickP1(qi,val) {
+  const s = state[currentExam];
+  if(s.submitted||s.p1[qi]!==null) return;
+  s.p1[qi] = val;
+  // just mark selected, no reveal
+  const card = document.getElementById(`p1c${qi}`);
+  card.querySelectorAll('.opt').forEach((b,j)=>{
+    b.disabled = true;
+    if(j===val) b.classList.add('show-mychosen');
+  });
+  updateProgress();
+}
+
+function checkP2(qi) {
+  const inp = document.getElementById(`p2i${qi}`);
+  const val = inp.value.trim().toUpperCase();
+  if(!val) return;
+  const s = state[currentExam];
+  if(s.submitted||s.p2[qi]!==null) return;
+  s.p2[qi] = val;
+  inp.disabled = true;
+  inp.classList.add('show-mychosen'); // neutral color until submit
+  document.querySelector(`#p2c${qi} .check-btn`).disabled = true;
+  updateProgress();
+}
+
+function pickP3(qi,val) {
+  const s = state[currentExam];
+  if(s.submitted||s.p3[qi]!==null) return;
+  s.p3[qi] = val;
+  const card = document.getElementById(`p3c${qi}`);
+  card.querySelectorAll('.tf-btn').forEach(b=>{
+    b.disabled = true;
+    if((b.textContent.includes('True')&&val===true)||(b.textContent.includes('False')&&val===false))
+      b.classList.add('my-pick');
+  });
+  updateProgress();
+}
+
+function checkP4(qi) {
+  const inp = document.getElementById(`p4i${qi}`);
+  const val = inp.value.trim();
+  if(!val) return;
+  const s = state[currentExam];
+  if(s.submitted||s.p4[qi]!==null) return;
+  s.p4[qi] = val;
+  inp.disabled = true;
+  document.querySelector(`#p4c${qi} .check-btn`).disabled = true;
+  updateProgress();
+}
+
+// ─────────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────────
+function trySubmit() {
+  const total = totalQ(currentExam);
+  const answered = answeredCount(currentExam);
+  if(answered < total) {
+    document.getElementById('incomplete-count').textContent = (total-answered) + ' câu';
+    document.getElementById('modal-incomplete').classList.add('show');
+  } else {
+    doSubmit();
+  }
+}
+
+function doSubmit() {
+  closeModal();
+  state[currentExam].submitted = true;
+  renderExam();
+  updateGlobal();
+  setTimeout(()=>document.getElementById('result-area').scrollIntoView({behavior:'smooth'}),300);
+}
+
+// ─────────────────────────────────────────────
+//  RESULT + REVIEW SUGGESTIONS
+// ─────────────────────────────────────────────
+function renderResult() {
+  const ex = EXAMS[currentExam];
+  const s = state[currentExam];
+  const total = totalQ(currentExam);
+  const correct = correctCount(currentExam);
+  const wrong = total - correct;
+  const pct = Math.round(correct/total*100);
+
+  let grade, gradeLabel;
+  if(pct>=85){grade='grade-a';gradeLabel='Xuất sắc 🎉'}
+  else if(pct>=70){grade='grade-b';gradeLabel='Khá tốt 👍'}
+  else if(pct>=50){grade='grade-c';gradeLabel='Cần cố gắng thêm'}
+  else{grade='grade-d';gradeLabel='Cần ôn tập kỹ hơn'}
+
+  // Collect wrong questions by chapter
+  const wrongByChapter = {};
+  const addWrong = (q, partLabel) => {
+    const ch = q.chapter || 'Chung';
+    if(!wrongByChapter[ch]) wrongByChapter[ch]={topics:new Set(),questions:[]};
+    wrongByChapter[ch].questions.push({q:q.q.substring(0,80)+'…', part:partLabel});
+  };
+
+  s.p1.forEach((v,i)=>{ if(v!==ex.p1.qs[i].ans) addWrong(ex.p1.qs[i],'MCQ'); });
+  s.p2.forEach((v,i)=>{ if(v===null||v.trim().toUpperCase()!==ex.p2.qs[i].ans.toUpperCase()) addWrong(ex.p2.qs[i],'Matching'); });
+  s.p3.forEach((v,i)=>{ if(v===null||v!==ex.p3.qs[i].ans) addWrong(ex.p3.qs[i],'True/False'); });
+  s.p4.forEach((v,i)=>{ if(v===null||!checkFill(v,ex.p4.qs[i])) addWrong(ex.p4.qs[i],'Fill-in'); });
+
+  const CHAPTER_GUIDE = {
+    'C1–2':'Ôn lại: 8 C\'s, các format thư (Full Block / Modified Block / Semi-Block), các thành phần thư (letterhead, inside address, salutation, complimentary close, enclosure, postscript…)',
+    'C3–4':'Ôn lại: cách viết inquiry letter (opening, body, closing), reply to inquiry, FOB/CIF, "You" attitude, từ vựng thư hỏi hàng (reference, availability, assure, accommodate…)',
+    'C5':'Ôn lại: order letters, order forms, covering letters, acknowledgement, routine vs. first order, xử lý hàng hết kho, điều kiện thương mại (CIF, FOB)',
+    'C6–7':'Ôn lại: complaint letters (firm + reasonable + courteous), adjustment letters (justified vs. unjustified), từ vựng xử lý khiếu nại (inconvenience, replacement, investigation, apology, adjustment…)',
+    'C8':'Ôn lại: 5 phương thức thanh toán (cash-in-advance, L/C, D/C, open account, consignment), các loại L/C (irrevocable, revocable, confirmed, transferable, back-to-back, standby), cách viết thư nhắc nợ'
+  };
+
+  let suggestHtml = '';
+  if(Object.keys(wrongByChapter).length>0) {
+    suggestHtml = `<div class="review-card">
+      <h4>📚 Gợi ý nội dung cần ôn tập</h4>
+      ${Object.entries(wrongByChapter).map(([ch,data])=>`
+        <div class="review-topic">
+          <div class="dot"></div>
+          <div>
+            <div><strong>${ch}</strong> – ${data.questions.length} câu sai</div>
+            <div class="review-tip">${CHAPTER_GUIDE[ch]||'Xem lại lý thuyết chương tương ứng.'}</div>
+            <div class="review-tip" style="margin-top:4px;color:#9CA3AF">
+              Câu sai: ${data.questions.map(q=>`[${q.part}] ${q.q}`).join(' · ')}
+            </div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+  } else {
+    suggestHtml = `<div class="alert alert-info">🎊 Tuyệt vời! Bạn không có câu nào sai. Hãy tiếp tục duy trì!</div>`;
+  }
+
+  document.getElementById('result-area').innerHTML = `
+    <div class="result-card">
+      <div class="result-score">${correct}<span style="font-size:24px;color:var(--gray-400)">/${total}</span></div>
+      <div class="result-label">câu trả lời đúng</div>
+      <div class="result-grade ${grade}">${gradeLabel} · ${pct}%</div>
+      <div class="result-breakdown">
+        <div class="rb-item"><div class="rb-val green-val">${correct}</div><div class="rb-lab">Đúng</div></div>
+        <div class="rb-item"><div class="rb-val red-val">${wrong}</div><div class="rb-lab">Sai / Bỏ</div></div>
+        <div class="rb-item"><div class="rb-val orange-val">${pct}%</div><div class="rb-lab">Tỉ lệ</div></div>
+      </div>
+    </div>
+    ${suggestHtml}
+    <div class="alert alert-info">👆 Cuộn lên để xem chi tiết đáp án và giải thích cho từng câu.</div>`;
+}
+
+// ─────────────────────────────────────────────
+//  RESET / MODAL
+// ─────────────────────────────────────────────
+function showResetModal() { document.getElementById('modal-reset').classList.add('show'); }
+function closeModal() {
+  document.getElementById('modal-reset').classList.remove('show');
+  document.getElementById('modal-incomplete').classList.remove('show');
+}
+function confirmReset() {
+  closeModal();
+  delete state[currentExam];
+  initState(currentExam);
+  document.getElementById('result-area').innerHTML='';
+  renderExam();
+  updateGlobal();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ─────────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────────
+renderHomeCards();
+updateGlobal();
+</script>
+</body>
+</html>
